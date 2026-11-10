@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="170" viewBox="0 0 560 170" role="img" aria-label="Chữ ký Trương Tấn Nghĩa - AI Học Lập Trình">
+  <defs>
+    <linearGradient id="sig" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0E4A63"/>
+      <stop offset="0.55" stop-color="#1E8FA8"/>
+      <stop offset="1" stop-color="#F28C1B"/>
+    </linearGradient>
+  </defs>
+
+  <text x="280" y="92" text-anchor="middle" font-family="'Segoe Script', 'Brush Script MT', 'Snell Roundhand', 'Apple Chancery', 'Lucida Handwriting', cursive" font-size="54" font-weight="700" fill="url(#sig)" fill-opacity="0" stroke="url(#sig)" stroke-width="1.4" stroke-dasharray="900" stroke-dashoffset="900">Trương Tấn Nghĩa<animate attributeName="stroke-dashoffset" values="900;0" dur="2.6s" fill="freeze"/><animate attributeName="fill-opacity" values="0;1" begin="2.2s" dur="1s" fill="freeze"/></text>
+
+  <path d="M100 116 C 170 104, 230 128, 300 114 S 420 104, 470 112" fill="none" stroke="#F28C1B" stroke-width="3" stroke-linecap="round" stroke-dasharray="420" stroke-dashoffset="420">
+    <animate attributeName="stroke-dashoffset" values="420;0" begin="2.4s" dur="1s" fill="freeze"/>
+  </path>
+
+  <text x="280" y="150" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" letter-spacing="4" fill="#1E8FA8" opacity="0">AI HỌC LẬP TRÌNH · NEVER GIVE UP<animate attributeName="opacity" values="0;1" begin="3.2s" dur="1s" fill="freeze"/></text>
+</svg>

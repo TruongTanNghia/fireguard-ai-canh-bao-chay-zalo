@@ -1,0 +1,49 @@
+﻿# ===== Bí mật & khóa (không bao giờ commit) =====
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+
+# ===== Python =====
+backend/venv/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+*.log
+
+# ===== Dữ liệu chạy thật (chứa token Bot Zalo, mật khẩu, ảnh sự cố) =====
+*.db
+*.db-journal
+*.sqlite3
+backend/data/fire_snapshots/*
+!backend/data/fire_snapshots/.gitkeep
+backend/data/site_maps/map_*
+
+# ===== Node & Next.js =====
+node_modules/
+frontend/.next/
+frontend/out/
+*.tsbuildinfo
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== Bộ phát RTSP giả lập: file chạy tải tự động khi chạy .bat =====
+tools/rtsp_gia_lap/mediamtx.exe
+tools/rtsp_gia_lap/LICENSE
+
+# ===== Tài nguyên soạn thảo nội bộ =====
+careful-writing/
+
+# ===== Hệ điều hành & IDE =====
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/

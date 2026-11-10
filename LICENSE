@@ -1,0 +1,60 @@
+BẢN QUYỀN / COPYRIGHT
+Copyright (c) 2026 Trương Tấn Nghĩa (AI Học Lập Trình). Bảo lưu mọi quyền / All Rights Reserved.
+
+==============================================================================
+TIẾNG VIỆT
+==============================================================================
+
+Toàn bộ mã nguồn, mô hình AI, tài liệu, hình ảnh và các tài nguyên khác trong kho
+mã này ("Phần mềm") thuộc quyền sở hữu của Trương Tấn Nghĩa (AI Học Lập Trình).
+
+Phần mềm được phát triển cho đề tài của nhóm sinh viên Học viện Phòng cháy Chữa
+cháy và Cứu nạn Cứu hộ. Quyền sử dụng của nhóm được thỏa thuận riêng với tác giả.
+
+Khi chưa có văn bản cho phép của tác giả, nghiêm cấm:
+  1. Sao chép, nhân bản toàn bộ hoặc một phần Phần mềm.
+  2. Phân phối, công bố, chia sẻ lại hoặc đăng tải Phần mềm ở bất kỳ đâu.
+  3. Chỉnh sửa, dịch, chuyển đổi hoặc tạo sản phẩm phái sinh từ Phần mềm.
+  4. Bán, cho thuê, cấp phép lại hoặc sử dụng Phần mềm vào mục đích thương mại.
+  5. Gỡ bỏ hoặc thay đổi thông tin bản quyền, tên tác giả và chữ ký trong Phần mềm.
+  6. Dùng Phần mềm hoặc một phần của nó để huấn luyện mô hình AI khác.
+
+Việc được cấp quyền truy cập vào kho mã này (ví dụ: được mời làm cộng tác viên,
+được gửi tệp nén bàn giao) KHÔNG đồng nghĩa với việc được cấp phép sử dụng,
+sao chép hay phân phối Phần mềm.
+
+Phần mềm được cung cấp "nguyên trạng", không kèm bất kỳ bảo đảm nào. Tác giả
+không chịu trách nhiệm về thiệt hại phát sinh từ việc sử dụng Phần mềm. Hệ thống
+phát hiện cháy bằng AI chỉ mang tính hỗ trợ, không thay thế thiết bị báo cháy
+đạt chuẩn theo quy định.
+
+Liên hệ cấp phép: https://github.com/TruongTanNghia
+
+==============================================================================
+ENGLISH
+==============================================================================
+
+All source code, AI models, documents, images and other resources in this
+repository (the "Software") are the property of Trương Tấn Nghĩa (AI Học Lập Trình).
+
+The Software was developed for a student project at the Fire and Rescue Academy
+(Vietnam). The project team's right of use is governed by a separate agreement
+with the author.
+
+Without the author's prior written permission, you may NOT:
+  1. Copy or reproduce the Software, in whole or in part.
+  2. Distribute, publish, re-share or upload the Software anywhere.
+  3. Modify, translate, adapt or create derivative works of the Software.
+  4. Sell, rent, sublicense or use the Software for commercial purposes.
+  5. Remove or alter any copyright notice, author name or signature.
+  6. Use the Software or any part of it to train other AI models.
+
+Being granted access to this repository (for example, as an invited
+collaborator or by receiving a handover archive) does NOT grant any license to
+use, copy or distribute the Software.
+
+The Software is provided "as is", without warranty of any kind. The author is not
+liable for any damage arising from its use. AI-based fire detection is an
+assistive tool and does not replace certified fire alarm equipment.
+
+Licensing contact: https://github.com/TruongTanNghia

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="380" viewBox="0 0 1200 380" role="img" aria-label="FireGuard AI - Hệ thống giám sát báo cháy bằng camera AI và cảnh báo qua Zalo">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FCF6EC"/>
+      <stop offset="1" stop-color="#F3E3CC"/>
+    </linearGradient>
+    <pattern id="dots" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.4" fill="#0E4A63" opacity="0.08"/>
+    </pattern>
+    <linearGradient id="flame" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#F28C1B"/>
+      <stop offset="0.6" stop-color="#FFB547"/>
+      <stop offset="1" stop-color="#FFE3A3"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#3BB8C3" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#3BB8C3" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0E4A63"/>
+      <stop offset="0.5" stop-color="#1E8FA8"/>
+      <stop offset="1" stop-color="#F28C1B"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="380" fill="url(#bg)"/>
+  <rect width="1200" height="380" fill="url(#dots)"/>
+  <rect x="1" y="1" width="1198" height="378" rx="18" fill="none" stroke="#0E4A63" stroke-opacity="0.15" stroke-width="2"/>
+
+  <!-- ===== Bên trái: chữ ===== -->
+  <g font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+    <rect x="60" y="54" width="352" height="30" rx="15" fill="#0E4A63"/>
+    <text x="236" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#FCF6EC" letter-spacing="1.5">HỌC VIỆN PCCC &amp; CNCH · ĐỒ ÁN AI</text>
+
+    <text x="58" y="160" font-size="74" font-weight="800" fill="#0E4A63" letter-spacing="-1">FireGuard<tspan fill="#F28C1B"> AI</tspan></text>
+
+    <rect x="60" y="178" width="0" height="6" rx="3" fill="url(#line)">
+      <animate attributeName="width" values="0;480;480" keyTimes="0;0.45;1" dur="4s" repeatCount="indefinite"/>
+    </rect>
+
+    <text x="60" y="222" font-size="21" font-weight="600" fill="#0E4A63">Camera AI phát hiện lửa &amp; khói theo thời gian thực</text>
+    <text x="60" y="252" font-size="21" fill="#1E8FA8">Còi báo động · Sơ đồ khuôn viên 2D · Cảnh báo qua Zalo</text>
+
+    <g font-size="14" font-weight="700">
+      <rect x="60" y="282" width="104" height="32" rx="16" fill="#FFFFFF" stroke="#F28C1B" stroke-width="2"/>
+      <text x="112" y="303" text-anchor="middle" fill="#F28C1B">YOLOv8s</text>
+      <rect x="176" y="282" width="104" height="32" rx="16" fill="#FFFFFF" stroke="#1E8FA8" stroke-width="2"/>
+      <text x="228" y="303" text-anchor="middle" fill="#1E8FA8">FastAPI</text>
+      <rect x="292" y="282" width="118" height="32" rx="16" fill="#FFFFFF" stroke="#0E4A63" stroke-width="2"/>
+      <text x="351" y="303" text-anchor="middle" fill="#0E4A63">Next.js 14</text>
+      <rect x="422" y="282" width="112" height="32" rx="16" fill="#FFFFFF" stroke="#3BB8C3" stroke-width="2"/>
+      <text x="478" y="303" text-anchor="middle" fill="#1E8FA8">Zalo Bot</text>
+    </g>
+  </g>
+
+  <!-- ===== Bên phải: camera quét -> phát hiện lửa -> gửi cảnh báo ===== -->
+  <!-- Camera CCTV -->
+  <g transform="translate(720 92)">
+    <line x1="14" y1="-40" x2="14" y2="0" stroke="#0E4A63" stroke-width="7" stroke-linecap="round"/>
+    <rect x="-14" y="-52" width="56" height="14" rx="5" fill="#0E4A63"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="-8 14 6;10 14 6;-8 14 6" dur="5s" repeatCount="indefinite"/>
+      <!-- tia quét -->
+      <path d="M78 6 L250 -18 L250 150 Z" fill="url(#beam)">
+        <animate attributeName="opacity" values="0.35;0.9;0.35" dur="2.5s" repeatCount="indefinite"/>
+      </path>
+      <rect x="-22" y="-12" width="92" height="40" rx="12" fill="#1E8FA8" stroke="#0E4A63" stroke-width="5"/>
+      <rect x="64" y="-6" width="20" height="28" rx="5" fill="#0E4A63"/>
+      <circle cx="74" cy="8" r="6" fill="#3BB8C3">
+        <animate attributeName="fill" values="#3BB8C3;#FCF6EC;#3BB8C3" dur="1.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="0" cy="8" r="5" fill="#F28C1B">
+        <animate attributeName="opacity" values="1;0.2;1" dur="1s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+  </g>
+
+  <!-- Ngọn lửa trong khung nhận diện -->
+  <g transform="translate(905 232)">
+    <circle cx="0" cy="0" r="40" fill="none" stroke="#F28C1B" stroke-width="3" opacity="0.6">
+      <animate attributeName="r" values="40;78;40" dur="2.4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.6;0;0.6" dur="2.4s" repeatCount="indefinite"/>
+    </circle>
+    <g>
+      <animateTransform attributeName="transform" type="scale" values="1 1;1.05 0.94;0.97 1.06;1 1" dur="0.9s" repeatCount="indefinite"/>
+      <path d="M0 -58 C 26 -28, 40 -8, 34 14 C 30 34, 14 46, 0 46 C -16 46, -34 34, -36 12 C -38 -10, -20 -18, -14 -36 C -6 -20, -4 -14, 0 -10 C 4 -26, 2 -40, 0 -58 Z" fill="url(#flame)" stroke="#0E4A63" stroke-width="4" stroke-linejoin="round"/>
+      <path d="M2 -2 C 14 10, 18 22, 12 32 C 8 40, -8 40, -12 30 C -16 20, -8 10, 2 -2 Z" fill="#FCF6EC"/>
+    </g>
+    <!-- khung nhận diện -->
+    <g fill="none" stroke="#F28C1B" stroke-width="4" stroke-linecap="round">
+      <path d="M-62 -48 v-22 h22 M40 -70 h22 v22 M62 46 v22 h-22 M-40 68 h-22 v-22">
+        <animate attributeName="stroke-opacity" values="1;0.35;1" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+    </g>
+    <rect x="-62" y="-104" width="78" height="26" rx="6" fill="#F28C1B"/>
+    <text x="-23" y="-86" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="800" fill="#FFFFFF">FIRE</text>
+  </g>
+
+  <!-- Dòng dữ liệu tới điện thoại -->
+  <path d="M970 232 C 1010 232, 1010 150, 1052 150" fill="none" stroke="#0E4A63" stroke-width="3" stroke-dasharray="7 7" opacity="0.55">
+    <animate attributeName="stroke-dashoffset" values="28;0" dur="0.8s" repeatCount="indefinite"/>
+  </path>
+  <circle r="6" fill="#F28C1B">
+    <animateMotion dur="1.6s" repeatCount="indefinite" path="M970 232 C 1010 232, 1010 150, 1052 150"/>
+  </circle>
+
+  <!-- Điện thoại nhận cảnh báo Zalo -->
+  <g transform="translate(1052 72)">
+    <rect x="0" y="0" width="104" height="196" rx="18" fill="#FFFFFF" stroke="#0E4A63" stroke-width="5"/>
+    <rect x="38" y="10" width="28" height="6" rx="3" fill="#0E4A63"/>
+    <g>
+      <animateTransform attributeName="transform" type="translate" values="0 0;0 -4;0 0" dur="1.8s" repeatCount="indefinite"/>
+      <rect x="10" y="30" width="84" height="44" rx="10" fill="#F28C1B"/>
+      <text x="52" y="49" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="800" fill="#FFFFFF">BÁO CHÁY!</text>
+      <text x="52" y="65" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="10" fill="#FFFFFF">Camera 01</text>
+    </g>
+    <rect x="10" y="84" width="84" height="54" rx="8" fill="#F3E3CC"/>
+    <path d="M52 96 C 60 106, 64 114, 60 122 C 57 128, 47 128, 44 122 C 41 115, 46 108, 52 96 Z" fill="#F28C1B"/>
+    <rect x="10" y="148" width="60" height="9" rx="4.5" fill="#3BB8C3" opacity="0.6"/>
+    <rect x="10" y="164" width="44" height="9" rx="4.5" fill="#3BB8C3" opacity="0.35"/>
+    <circle cx="96" cy="8" r="13" fill="#F28C1B" stroke="#FFFFFF" stroke-width="3">
+      <animate attributeName="r" values="11;14;11" dur="1s" repeatCount="indefinite"/>
+    </circle>
+    <text x="96" y="13" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="800" fill="#FFFFFF">3</text>
+  </g>
+
+  <text x="1176" y="362" text-anchor="end" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" fill="#0E4A63" opacity="0.55">© Trương Tấn Nghĩa · AI Học Lập Trình</text>
+</svg>
