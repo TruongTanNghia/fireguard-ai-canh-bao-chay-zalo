@@ -38,9 +38,6 @@ yarn-error.log*
 tools/rtsp_gia_lap/mediamtx.exe
 tools/rtsp_gia_lap/LICENSE
 
-# ===== Tài nguyên soạn thảo nội bộ =====
-careful-writing/
-
 # ===== Hệ điều hành & IDE =====
 .DS_Store
 Thumbs.db
