@@ -487,5 +487,5 @@ Frontend được kiểm tra bằng `tsc --noEmit`, `next build` và trình duy�
 </p>
 
 <p align="center">
-  <sub>© 2026 Trương Tấn Nghĩa · AI Học Lập Trình. All Rights Reserved.<br/>Tài liệu riêng tư · Nghiêm cấm sao chép, phân phối khi chưa được phép.</sub>
+  <sub>© 2026 Trương Tấn Nghĩa · AI Học Lập Trình. All Rights Reserved.<br/>Mã nguồn công khai để tham khảo · Nghiêm cấm sao chép, phân phối khi chưa được phép.</sub>
 </p>
