@@ -1,95 +1,119 @@
 @echo off
 chcp 65001 > nul
-title CÀI ĐẶT TỰ ĐỘNG - HỆ THỐNG FIREGUARD AI PRO 2.0
+title CAI DAT TU DONG - FIREGUARD AI PRO 2.0
+cd /d "%~dp0"
 
 echo ==============================================================================
-echo   🔥 CHƯƠNG TRÌNH THIẾT LẬP TỰ ĐỘNG - FIREGUARD AI PRO 2.0
+echo   CHƯƠNG TRÌNH THIẾT LẬP TỰ ĐỘNG - FIREGUARD AI PRO 2.0
 echo ==============================================================================
 echo.
 echo  Kịch bản này sẽ tự động:
-echo    1. Kiểm tra môi trường Python và Node.js trên máy tính của bạn.
-echo    2. Tạo môi trường ảo Python venv tương thích riêng cho máy bạn.
-echo    3. Cài đặt toàn bộ thư viện trí tuệ nhân tạo (YOLOv8, PyTorch, OpenCV...).
-echo    4. Cài đặt các gói giao diện Web (Next.js, TailwindCSS...).
-echo    5. Khởi tạo cơ sở dữ liệu mẫu sẵn sàng hoạt động.
+echo    1. Kiểm tra Python và Node.js trên máy.
+echo    2. Tạo môi trường Python riêng (backend\venv).
+echo    3. Cài thư viện AI: YOLOv8, PyTorch, OpenCV... (5-15 phút tùy mạng).
+echo    4. Cài thư viện giao diện web: Next.js, TailwindCSS...
+echo    5. Khởi tạo cơ sở dữ liệu mẫu.
 echo.
 echo ==============================================================================
 pause
 
-cd /d "%~dp0"
-
-:: 1. KIỂM TRA PYTHON
+:: 1. PYTHON
 echo.
 echo [1/5] Kiểm tra Python...
 python --version > nul 2>&1
-if %errorlevel% neq 0 (
-    echo.
-    echo ❌ LỖI: Không tìm thấy Python trên máy tính của bạn!
-    echo 👉 Vui lòng tải và cài đặt Python 3.10 hoặc 3.11 tại: https://www.python.org/downloads/
-    echo ⚠️ LƯU Ý QUAN TRỌNG: Nhớ tích chọn vào ô [x] "Add Python to PATH" khi cài đặt.
-    echo.
-    pause
-    exit /b 1
-)
+if errorlevel 1 goto :no_python
 python --version
-echo ✅ Đã tìm thấy Python!
+echo       Đã tìm thấy Python. Khuyên dùng Python 3.10 - 3.12.
 
-:: 2. KIỂM TRA NODE.JS
+:: 2. NODE.JS
 echo.
 echo [2/5] Kiểm tra Node.js...
-node --version > nul 2>&1
-if %errorlevel% neq 0 (
-    echo.
-    echo ❌ LỖI: Không tìm thấy Node.js trên máy tính của bạn!
-    echo 👉 Vui lòng tải và cài đặt Node.js phiên bản LTS tại: https://nodejs.org/
-    echo.
-    pause
-    exit /b 1
-)
+call npm --version > nul 2>&1
+if errorlevel 1 goto :no_node
 node --version
-echo ✅ Đã tìm thấy Node.js!
+echo       Đã tìm thấy Node.js.
 
-:: 3. TẠO MÔI TRƯỜNG ẢO VÀ CÀI ĐẶT BACKEND
+:: 3. BACKEND
 echo.
-echo [3/5] Đang thiết lập môi trường Backend Python...
-cd backend
-if not exist "venv" (
-    echo   - Đang khởi tạo môi trường ảo Python venv...
-    python -m venv venv
-)
-echo   - Kích hoạt venv...
-call venv\Scripts\activate.bat
+echo [3/5] Đang thiết lập môi trường Python cho Backend...
+set "PY=backend\venv\Scripts\python.exe"
+if not exist "%PY%" python -m venv backend\venv
+if not exist "%PY%" goto :venv_failed
+"%PY%" -m pip install --upgrade pip
+echo       Đang cài thư viện Python, vui lòng chờ...
+"%PY%" -m pip install -r backend\requirements.txt
+if errorlevel 1 goto :pip_failed
+"%PY%" -c "import fastapi, uvicorn, multipart, pydantic_settings, sqlalchemy, ultralytics, torch, cv2, numpy, requests, bcrypt, jose, pandas, openpyxl"
+if errorlevel 1 goto :pip_failed
+echo       Cài thư viện Python thành công.
 
-echo   - Cài đặt thư viện Python (Quá trình này có thể mất 2-5 phút tùy tốc độ mạng)...
-python -m pip install --upgrade pip --quiet
-pip install -r requirements.txt
-
-echo   - Khởi tạo cơ sở dữ liệu và tài khoản mẫu...
-python -m app.db.seed
-cd ..
-echo ✅ Cài đặt Backend hoàn tất!
-
-:: 4. CÀI ĐẶT VÀ BUILD GIAO DIỆN FRONTEND
 echo.
-echo [4/5] Đang thiết lập giao diện Web Frontend...
-cd frontend
-echo   - Đang cài đặt thư viện Node.js (npm install)...
+echo [4/5] Đang thiết lập giao diện Web...
+pushd frontend
 call npm install
-echo   - Đang tối ưu hóa ứng dụng Web (npm run build)...
-call npm run build
-cd ..
-echo ✅ Cài đặt Frontend hoàn tất!
+if errorlevel 1 goto :npm_failed
+popd
+echo       Cài thư viện giao diện thành công.
 
-:: 5. HOÀN TẤT
+echo.
+echo [5/5] Khởi tạo cơ sở dữ liệu và tài khoản mẫu...
+pushd backend
+"venv\Scripts\python.exe" -m app.db.seed
+if errorlevel 1 goto :seed_failed
+popd
+
 echo.
 echo ==============================================================================
-echo   🎉 CHÚC MỪNG BẠN ĐÃ CÀI ĐẶT THÀNH CÔNG HỆ THỐNG FIREGUARD AI PRO 2.0!
+echo   CÀI ĐẶT THÀNH CÔNG HỆ THỐNG FIREGUARD AI PRO 2.0
 echo ==============================================================================
-echo.
-echo  👉 Để khởi chạy hệ thống, chỉ cần nhấp đúp vào tệp: start_all.bat
-echo  👉 Giao diện Web:   http://localhost:3000
-echo  👉 Tài khoản Admin: admin / admin123
-echo  👉 Xem hướng dẫn:   HDSD_VA_CAI_DAT.md
-echo.
+echo   Khởi chạy hệ thống: nhấp đúp tệp start_all.bat
+echo   Giao diện Web:      http://localhost:3000
+echo   Tài khoản Admin:    admin / admin123
+echo   Hướng dẫn:          HDSD_VA_CAI_DAT.md
 echo ==============================================================================
 pause
+exit /b 0
+
+:no_python
+echo.
+echo [LỖI] Không tìm thấy Python trên máy.
+echo   1. Tải Python 3.11: https://www.python.org/downloads/release/python-3119/
+echo   2. Khi cài, nhớ tích ô "Add python.exe to PATH".
+echo   3. Chạy lại file này.
+pause
+exit /b 1
+
+:no_node
+echo.
+echo [LỖI] Không tìm thấy Node.js. Tải bản LTS tại https://nodejs.org/ rồi chạy lại file này.
+pause
+exit /b 1
+
+:venv_failed
+echo.
+echo [LỖI] Không tạo được backend\venv. Hãy chép dự án ra thư mục có quyền ghi, ví dụ D:\FireGuard.
+pause
+exit /b 1
+
+:pip_failed
+echo.
+echo [LỖI] Cài thư viện Python thất bại. Xem dòng báo lỗi phía trên.
+echo   - Kiểm tra Internet rồi chạy lại file này.
+echo   - Nếu Python quá mới so với PyTorch: gỡ Python đó, cài Python 3.11,
+echo     xóa thư mục backend\venv rồi chạy lại.
+pause
+exit /b 1
+
+:npm_failed
+popd
+echo.
+echo [LỖI] Cài thư viện giao diện web thất bại. Kiểm tra Internet rồi chạy lại.
+pause
+exit /b 1
+
+:seed_failed
+popd
+echo.
+echo [LỖI] Khởi tạo cơ sở dữ liệu thất bại. Xem thông báo lỗi phía trên.
+pause
+exit /b 1

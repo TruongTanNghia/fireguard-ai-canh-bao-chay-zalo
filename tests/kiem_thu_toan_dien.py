@@ -14,6 +14,7 @@ DB = f"{S}/full_test.db"
 if os.path.exists(DB):
     os.remove(DB)
 SNAP_DIR = os.path.join(BACKEND, "data", "fire_snapshots")
+os.makedirs(SNAP_DIR, exist_ok=True)  # bản clone mới chưa có thư mục này
 snaps_before = set(os.listdir(SNAP_DIR))
 
 results = []

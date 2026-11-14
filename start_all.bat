@@ -1,27 +1,27 @@
 @echo off
 chcp 65001 > nul
-title HỆ THỐNG GIÁM SÁT BÁO CHÁY & CẢNH BÁO ZALO AI
-
-echo ==============================================================
-echo  🔥 HỆ THỐNG GIÁM SÁT BÁO CHÁY & CẢNH BÁO ZALO AI (FIREGUARD)
-echo ==============================================================
-echo.
-echo Đang khởi chạy đồng thời Backend và Frontend...
-echo.
-
+title FIREGUARD AI - HE THONG BAO CHAY VA CANH BAO ZALO
 cd /d "%~dp0"
 
-start "Backend Server (FastAPI)" cmd /c "cd backend && start_backend.bat"
+echo ==============================================================
+echo   FIREGUARD AI - HỆ THỐNG GIÁM SÁT BÁO CHÁY VÀ CẢNH BÁO ZALO
+echo ==============================================================
+echo.
+echo Đang mở 2 cửa sổ: BACKEND (máy chủ AI) và FRONTEND (giao diện web)...
+
+start "BACKEND - FIREGUARD AI" /D "%~dp0backend" cmd /c start_backend.bat
 timeout /t 3 /nobreak > nul
-start "Frontend Web (Next.js)" cmd /c "cd frontend && start_frontend.bat"
+start "FRONTEND - FIREGUARD AI" /D "%~dp0frontend" cmd /c start_frontend.bat
 
 echo.
 echo ==============================================================
-echo  ✅ HỆ THỐNG ĐÃ ĐƯỢC KHỞI ĐỘNG!
+echo   ĐÃ KHỞI ĐỘNG. Lần chạy đầu, cửa sổ BACKEND sẽ tự cài thư viện
+echo   AI trong khoảng 5-15 phút. Chờ đến khi thấy dòng
+echo   "Application startup complete" rồi mới đăng nhập.
 echo ==============================================================
-echo  👉 Giao diện Web:   http://localhost:3000
-echo  👉 API Swagger:     http://localhost:8000/docs
-echo  👉 Tài khoản Admin: admin / admin123
+echo   Giao diện Web:   http://localhost:3000
+echo   API Swagger:     http://localhost:8000/docs
+echo   Tài khoản Admin: admin / admin123
 echo ==============================================================
 echo.
 pause

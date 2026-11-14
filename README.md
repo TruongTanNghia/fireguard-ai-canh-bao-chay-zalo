@@ -330,8 +330,8 @@ Tài liệu tương tác đầy đủ ở `http://localhost:8000/docs` (Swagger)
 
 **Yêu cầu:** Windows 10/11, Python 3.10 hoặc 3.11, Node.js LTS. Có card NVIDIA thì AI chạy nhanh hơn, không có vẫn chạy được bằng CPU.
 
-1. **Cài đặt tự động** (chỉ chạy lần đầu): nhấp đúp `cai_dat_tu_dong.bat`. Tệp này tạo môi trường Python, cài thư viện AI và giao diện, rồi khởi tạo dữ liệu mẫu.
-2. **Khởi chạy cả hệ thống:** nhấp đúp `start_all.bat`.
+1. **Cài đặt tự động** (chỉ chạy lần đầu): nhấp đúp `cai_dat_tu_dong.bat`. Tệp này tạo môi trường Python, cài thư viện AI và giao diện, rồi khởi tạo dữ liệu mẫu. Nếu cài lỗi, tệp sẽ dừng lại và báo cách khắc phục.
+2. **Khởi chạy cả hệ thống:** nhấp đúp `start_all.bat`. Nếu bỏ qua bước 1, cửa sổ BACKEND sẽ tự tạo môi trường và cài thư viện còn thiếu ở lần chạy đầu, khoảng 5-15 phút.
 3. Mở trình duyệt vào `http://localhost:3000` và đăng nhập bằng `admin` / `admin123`.
 4. Bấm **BẬT GIÁM SÁT** để AI bắt đầu quét camera. Muốn thử nhanh thì chọn tab **DEMO** để chạy video cháy mẫu.
 
@@ -354,6 +354,9 @@ npm run dev
 
 > [!TIP]
 > Nếu cổng 8000 đã bị phần mềm khác chiếm, hãy chạy backend ở cổng khác, ví dụ `uvicorn app.main:app --port 8800`. Sau đó đặt biến môi trường `NEXT_PUBLIC_API_PORT=8800` trước khi chạy frontend.
+
+> [!TIP]
+> Cửa sổ BACKEND báo `ModuleNotFoundError: No module named ...` và giao diện báo "Lỗi khi điều khiển camera / video demo"? Nghĩa là máy chưa cài thư viện Python. Đóng cửa sổ rồi chạy lại `backend\start_backend.bat`, tệp này sẽ tự cài. Dự án chạy ổn định trên Python 3.10 - 3.12.
 
 > [!TIP]
 > Webcam không lên hình? Hệ thống tự thử các chế độ DirectShow và Media Foundation, rồi tự dò webcam số 0 đến 3. Có thể chỉ định webcam bằng nguồn `webcam:1` trong **Cài đặt > Camera**.
