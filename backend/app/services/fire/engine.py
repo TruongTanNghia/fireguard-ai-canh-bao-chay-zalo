@@ -27,6 +27,9 @@ logger = logging.getLogger(__name__)
 # Số chỉ số webcam tối đa sẽ dò khi webcam được chọn không mở được (0, 1, 2, 3)
 WEBCAM_SCAN_MAX_INDEX = 4
 VIDEO_FILE_EXTS = (".mp4", ".avi", ".mov", ".mkv")
+# Phát hiện camera ảo phát ảnh tĩnh: khác biệt trung bình giữa các khung nhỏ hơn ngưỡng này coi là ảnh tĩnh
+STATIC_FEED_MAX_DIFF = 0.05
+STATIC_FEED_MIN_BRIGHTNESS = 5.0
 
 
 def _webcam_backends() -> List[Tuple[str, int]]:
@@ -40,8 +43,38 @@ def _webcam_backends() -> List[Tuple[str, int]]:
     return [("V4L2", cv2.CAP_V4L2), ("AUTO", cv2.CAP_ANY)]
 
 
-def _try_open_webcam(index: int) -> Tuple[Optional[cv2.VideoCapture], Optional[str]]:
-    """Thử mở webcam theo chỉ số với lần lượt từng backend. Chỉ coi là thành công khi đọc được khung hình thật."""
+def _is_static_feed(cap: cv2.VideoCapture, first_frame: np.ndarray) -> bool:
+    """
+    Nhận biết camera ảo (CyberLink YouCam, OBS Virtual Camera, ManyCam...) khi phần mềm gốc chưa chạy:
+    chúng phát MỘT ẢNH TĨNH lặp lại ("Please Start YouCam"), các khung hình giống hệt nhau.
+    Webcam thật luôn có nhiễu cảm biến nên hai khung liên tiếp không bao giờ trùng tuyệt đối
+    (đo thực tế: khác biệt trung bình 0,6 - 3,1; ảnh tĩnh: đúng 0).
+    Bỏ qua khung gần như đen (webcam đang khởi động) để không nhận nhầm webcam thật là camera ảo.
+    """
+    samples = []
+    if float(first_frame.mean()) > STATIC_FEED_MIN_BRIGHTNESS:
+        samples.append(first_frame.astype(np.int16))
+    deadline = time.time() + 1.5
+    while len(samples) < 6 and time.time() < deadline:
+        ok, frame = cap.read()
+        if ok and frame is not None and frame.size > 0 and float(frame.mean()) > STATIC_FEED_MIN_BRIGHTNESS:
+            samples.append(frame.astype(np.int16))
+        time.sleep(0.05)
+    if len(samples) < 3:
+        return False  # không đủ khung sáng để kết luận -> coi là webcam thật
+    diffs = [
+        float(np.mean(np.abs(samples[i] - samples[i - 1])))
+        for i in range(1, len(samples))
+        if samples[i].shape == samples[i - 1].shape
+    ]
+    return bool(diffs) and max(diffs) < STATIC_FEED_MAX_DIFF
+
+
+def _try_open_webcam(index: int) -> Tuple[Optional[cv2.VideoCapture], Optional[str], bool]:
+    """
+    Thử mở webcam theo chỉ số với lần lượt từng backend. Chỉ coi là thành công khi đọc được khung hình thật.
+    Trả về (cap, tên backend, có phải nguồn ảnh tĩnh / camera ảo hay không).
+    """
     for backend_name, backend_id in _webcam_backends():
         cap = None
         try:
@@ -51,13 +84,13 @@ def _try_open_webcam(index: int) -> Tuple[Optional[cv2.VideoCapture], Optional[s
                     ok, frame = cap.read()
                     if ok and frame is not None and frame.size > 0:
                         cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
-                        return cap, backend_name
+                        return cap, backend_name, _is_static_feed(cap, frame)
                     time.sleep(0.1)
         except Exception as e:
             logger.debug(f"[Webcam] Lỗi mở webcam #{index} bằng {backend_name}: {e}")
         if cap is not None:
             cap.release()
-    return None, None
+    return None, None, False
 
 
 def _build_placeholder_frame(title: str, subtitle: str = "") -> np.ndarray:
@@ -150,21 +183,45 @@ class CameraStreamWorker(threading.Thread):
     def _open_capture(self, resolved_src, is_file: bool) -> Optional[cv2.VideoCapture]:
         """Mở nguồn video. Webcam được thử nhiều backend và tự dò chỉ số khác nếu chỉ số đã chọn không dùng được."""
         if isinstance(resolved_src, int):
-            cap, backend = _try_open_webcam(resolved_src)
-            if cap is not None:
-                logger.info(f"[CameraWorker #{self.camera_id}] Đã mở webcam #{resolved_src} (backend {backend})")
+            # Webcam đã chọn trước, sau đó dò các chỉ số khác.
+            # Webcam phát ảnh tĩnh (camera ảo như CyberLink YouCam, OBS Virtual Camera) chỉ dùng khi không còn webcam thật nào.
+            static_fallback: Optional[Tuple[cv2.VideoCapture, int, str]] = None
+            order = [resolved_src] + [i for i in range(WEBCAM_SCAN_MAX_INDEX) if i != resolved_src]
+            for idx in order:
+                cap, backend, is_static = _try_open_webcam(idx)
+                if cap is None:
+                    continue
+                if is_static:
+                    logger.warning(
+                        f"[CameraWorker #{self.camera_id}] Webcam #{idx} chỉ phát ảnh tĩnh, có thể là CAMERA ẢO "
+                        f"(CyberLink YouCam, OBS Virtual Camera, ManyCam...). Đang tìm webcam thật khác..."
+                    )
+                    if static_fallback is None:
+                        static_fallback = (cap, idx, backend)
+                    else:
+                        cap.release()
+                    continue
+                selected_is_virtual = static_fallback is not None and static_fallback[1] == resolved_src
+                if static_fallback is not None:
+                    static_fallback[0].release()
+                if idx == resolved_src:
+                    logger.info(f"[CameraWorker #{self.camera_id}] Đã mở webcam #{idx} (backend {backend})")
+                else:
+                    reason = "là camera ảo" if selected_is_virtual else "không dùng được"
+                    logger.warning(
+                        f"[CameraWorker #{self.camera_id}] Webcam #{resolved_src} {reason}, "
+                        f"đã tự chuyển sang webcam thật #{idx} (backend {backend})"
+                    )
                 return cap
 
-            for idx in range(WEBCAM_SCAN_MAX_INDEX):
-                if idx == resolved_src:
-                    continue
-                cap, backend = _try_open_webcam(idx)
-                if cap is not None:
-                    logger.warning(
-                        f"[CameraWorker #{self.camera_id}] Webcam #{resolved_src} không dùng được, "
-                        f"đã tự chuyển sang webcam #{idx} (backend {backend})"
-                    )
-                    return cap
+            if static_fallback is not None:
+                cap, idx, backend = static_fallback
+                logger.warning(
+                    f"[CameraWorker #{self.camera_id}] Không tìm thấy webcam thật nào khác, tạm dùng webcam #{idx} "
+                    f"(ảnh tĩnh). Nếu hình hiện 'Please Start YouCam': mở phần mềm YouCam, hoặc gỡ YouCam, "
+                    f"hoặc tắt camera ảo đó trong Device Manager."
+                )
+                return cap
 
             logger.warning(
                 f"[CameraWorker #{self.camera_id}] Không mở được webcam nào. Kiểm tra: (1) webcam đang bị ứng dụng khác "

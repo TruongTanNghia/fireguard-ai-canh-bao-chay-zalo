@@ -359,6 +359,9 @@ npm run dev
 > Cửa sổ BACKEND báo `ModuleNotFoundError: No module named ...` và giao diện báo "Lỗi khi điều khiển camera / video demo"? Nghĩa là máy chưa cài thư viện Python. Đóng cửa sổ rồi chạy lại `backend\start_backend.bat`, tệp này sẽ tự cài. Dự án chạy ổn định trên Python 3.10 - 3.12.
 
 > [!TIP]
+> Khung camera hiện ảnh **"Please Start YouCam"** hoặc logo phần mềm khác? Máy đang có **camera ảo** (CyberLink YouCam, OBS Virtual Camera, ManyCam...) chiếm vị trí webcam số 0. Hệ thống nhận ra camera ảo vì nó chỉ phát ảnh tĩnh, rồi tự chuyển sang webcam thật. Nếu máy chỉ có camera ảo, hãy mở phần mềm đó, gỡ cài đặt nó, hoặc tắt nó trong Device Manager.
+
+> [!TIP]
 > Webcam không lên hình? Hệ thống tự thử các chế độ DirectShow và Media Foundation, rồi tự dò webcam số 0 đến 3. Có thể chỉ định webcam bằng nguồn `webcam:1` trong **Cài đặt > Camera**.
 
 > [!WARNING]
